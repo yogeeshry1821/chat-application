@@ -1,15 +1,10 @@
-import WebSocket from "ws"
+import {WebSocketServer} from "ws"
 
-const wss = new WebSocket.Server({ port: 8080 })
-wss.on('connection',function socket(){
+const wss = new WebSocketServer({ port: 8080 })
+wss.on('connection', (socket)=>{
     console.log('a user connected')
-    socket.on('message', function incomingMessage(message) {
-        console.log('received: %s', message)
-        wss.clients.forEach(function each(client) {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message)
-            }
-        })
+    socket.on('message',()=>{
+        console.log('message Recieved')
     })
 })
 console.log('hi')
