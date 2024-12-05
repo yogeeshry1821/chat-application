@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
-  const [messages, setMessages] = useState(["hi there", "hello bro"]);
-  const [input, setInput] = useState('');
-  const wsRef = useRef(null);
+  const [messages, setMessages] = useState<string[]>(["hi there", "hello bro"]);
+  const [input, setInput] = useState<string>('');
+  const wsRef = useRef<WebSocket | null>(null); // Explicit typing
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket("ws://localhost:8080"); // Use ws:// for WebSocket connections
+
     ws.onopen = () => {
       console.log("WebSocket connected");
       ws.send(
@@ -38,7 +39,7 @@ function App() {
   }, []);
 
   const handleSendMessage = () => {
-    if (input.trim()) {
+    if (input.trim() && wsRef.current) { // Null check for wsRef.current
       wsRef.current.send(
         JSON.stringify({
           type: 'chat',
